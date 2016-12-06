@@ -1,0 +1,17 @@
+Package: jsonld
+Type: Package
+Title: Bindings to the JSON-LD JavaScript library
+Version: 0.1
+Author: Jeroen Ooms
+Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+Description: JSON-LD is designed as a light-weight syntax that can be used to express 
+    Linked Data. It is primarily intended to be a way to express Linked Data in JavaScript
+    and other Web-based programming environments. It is also useful when building 
+    interoperable Web Services and when storing Linked Data in JSON-based document storage
+    engines.
+License: BSD_3_clause + file LICENSE
+URL: https://github.com/digitalbazaar/jsonld.js#readme
+BugReports: https://github.com/ropensci/jsonld/issues
+Imports: V8, jsonlite
+RoxygenNote: 5.0.1.9000
+Roxygen: list(markdown = TRUE)
