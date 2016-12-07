@@ -12,6 +12,6 @@ Description: JSON-LD is designed as a light-weight syntax that can be used to ex
 License: BSD_3_clause + file LICENSE
 URL: https://github.com/digitalbazaar/jsonld.js#readme
 BugReports: https://github.com/ropensci/jsonld/issues
-Imports: V8, jsonlite
+Imports: V8, jsonlite, curl
 RoxygenNote: 5.0.1.9000
 Roxygen: list(markdown = TRUE)
