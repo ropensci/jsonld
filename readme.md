@@ -2,6 +2,14 @@
 
 > Bindings to the JSON-LD JavaScript library
 
+[![Build Status](https://travis-ci.org/ropensci/jsonld.svg?branch=master)](https://travis-ci.org/ropensci/jsonld)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/jsonld?branch=master&svg=true)](https://ci.appveyor.com/project/jeroenooms/jsonld)
+[![Coverage Status](https://codecov.io/github/ropensci/jsonld/coverage.svg?branch=master)](https://codecov.io/github/ropensci/jsonld?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/jsonld)](https://cran.r-project.org/package=jsonld)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/jsonld)](https://cran.r-project.org/package=jsonld)
+[![Github Stars](https://img.shields.io/github/stars/ropensci/jsonld.svg?style=social&label=Github)](https://github.com/ropensci/jsonld)
+
+
 JSON-LD is designed as a light-weight syntax that can be used to express 
 Linked Data. It is primarily intended to be a way to express Linked Data in JavaScript
 and other Web-based programming environments. It is also useful when building 
