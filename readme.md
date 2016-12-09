@@ -1,6 +1,6 @@
 # jsonld
 
-> Bindings to the JSON-LD JavaScript library
+> JSON for Linking Data
 
 [![Build Status](https://travis-ci.org/ropensci/jsonld.svg?branch=master)](https://travis-ci.org/ropensci/jsonld)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/jsonld?branch=master&svg=true)](https://ci.appveyor.com/project/jeroenooms/jsonld)
@@ -10,11 +10,10 @@
 [![Github Stars](https://img.shields.io/github/stars/ropensci/jsonld.svg?style=social&label=Github)](https://github.com/ropensci/jsonld)
 
 
-JSON-LD is designed as a light-weight syntax that can be used to express 
-Linked Data. It is primarily intended to be a way to express Linked Data in JavaScript
-and other Web-based programming environments. It is also useful when building 
-interoperable Web Services and when storing Linked Data in JSON-based document storage
-engines.
+JSON-LD is a light-weight syntax for expressing linked data. It is primarily
+intended for web-based programming environments, interoperable web services and for 
+storing linked data in JSON-based databases. This package provides bindings to the 
+JavaScript library for converting, expanding and compacting JSON-LD documents.
 
 ## Hello World
 

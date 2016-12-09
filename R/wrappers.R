@@ -1,6 +1,6 @@
 #' Working with JSON-LD
 #'
-#' Wrappers for converting, expanding and compating JSON-LD documents. All parameters
+#' Wrappers for converting, expanding and compacting JSON-LD documents. All parameters
 #' and return values must be JSON strings. Use [jsonlite::toJSON] and [jsonlite::fromJSON]
 #' to convert between R objects and JSON format. The [readme](https://github.com/ropensci/jsonld#readme)
 #' has basic examples.

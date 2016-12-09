@@ -40,7 +40,7 @@ jsonld_normalize(doc, algorithm = "URDNA2015",
 \item{algorithm}{normalization algorithm}
 }
 \description{
-Wrappers for converting, expanding and compating JSON-LD documents. All parameters
+Wrappers for converting, expanding and compacting JSON-LD documents. All parameters
 and return values must be JSON strings. Use \link[jsonlite:toJSON]{jsonlite::toJSON} and \link[jsonlite:fromJSON]{jsonlite::fromJSON}
 to convert between R objects and JSON format. The \href{https://github.com/ropensci/jsonld#readme}{readme}
 has basic examples.
