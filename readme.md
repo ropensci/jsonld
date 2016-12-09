@@ -41,7 +41,7 @@ context <- '{
 
 
 ```r
-(out <- jsonld::compact(doc, context))
+(out <- jsonld_compact(doc, context))
 ```
 
 ```
@@ -64,7 +64,7 @@ context <- '{
 ```
 
 ```r
-(expanded <- jsonld::expand(out))
+(expanded <- jsonld_expand(out))
 ```
 
 ```
@@ -93,7 +93,7 @@ context <- '{
 
 
 ```r
-cat(nquads <- jsonld::to_rdf(doc))
+cat(nquads <- jsonld_to_rdf(doc))
 ```
 
 ```
@@ -103,7 +103,7 @@ _:b0 <http://schema.org/url> <http://manu.sporny.org/> .
 ```
 
 ```r
-jsonld::from_rdf(nquads)
+jsonld_from_rdf(nquads)
 ```
 
 ```
@@ -133,7 +133,7 @@ jsonld::from_rdf(nquads)
 
 
 ```r
-jsonld::flatten(doc)
+jsonld_flatten(doc)
 ```
 
 ```
@@ -160,7 +160,7 @@ jsonld::flatten(doc)
 ```
 
 ```r
-cat(jsonld::normalize(doc, algorithm = 'URDNA2015', format = 'application/nquads'))
+cat(jsonld_normalize(doc, algorithm = 'URDNA2015', format = 'application/nquads'))
 ```
 
 ```

@@ -10,7 +10,8 @@
 #' @name jsonld
 #' @param doc string with JSON-LD document
 #' @param context string with JSON-LD context
-#' @examples doc <- '{
+#' @examples # Example from https://github.com/digitalbazaar/jsonld.js#quick-examples
+#' doc <- '{
 #'   "http://schema.org/name": "Manu Sporny",
 #'   "http://schema.org/url": {"@id": "http://manu.sporny.org/"},
 #'   "http://schema.org/image": {"@id": "http://manu.sporny.org/images/manu.png"}
@@ -23,17 +24,17 @@
 #' }'
 #'
 #' # Compact and expand:
-#' (out <- jsonld::compact(doc, context))
-#' (expanded <- jsonld::expand(out))
+#' (out <- jsonld_compact(doc, context))
+#' (expanded <- jsonld_expand(out))
 #'
 #' # Convert between JSON and RDF:
-#' cat(nquads <- jsonld::to_rdf(doc))
-#' jsonld::from_rdf(nquads)
+#' cat(nquads <- jsonld_to_rdf(doc))
+#' jsonld_from_rdf(nquads)
 #'
 #' # Other utilities:
-#' jsonld::flatten(doc)
-#' cat(jsonld::normalize(doc))
-compact <- function(doc, context){
+#' jsonld_flatten(doc)
+#' cat(jsonld_normalize(doc))
+jsonld_compact <- function(doc, context){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")
   if(!jsonlite::validate(context))
@@ -44,7 +45,7 @@ compact <- function(doc, context){
 #' @export
 #' @rdname jsonld
 #' @param compacted string with JSON message
-expand <- function(compacted){
+jsonld_expand <- function(compacted){
   if(!jsonlite::validate(compacted))
     stop("Argument 'compacted' is not a valid JSON string")
   structure(ctx$call("r_expand", V8::JS(compacted)), class = "json")
@@ -52,7 +53,7 @@ expand <- function(compacted){
 
 #' @export
 #' @rdname jsonld
-flatten <- function(doc){
+jsonld_flatten <- function(doc){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")
   structure(ctx$call("r_flatten", V8::JS(doc)), class = "json")
@@ -60,7 +61,7 @@ flatten <- function(doc){
 
 #' @export
 #' @rdname jsonld
-frame <- function(doc){
+jsonld_frame <- function(doc){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")
   structure(ctx$call("r_frame", V8::JS(doc)), class = "json")
@@ -69,14 +70,14 @@ frame <- function(doc){
 #' @export
 #' @rdname jsonld
 #' @param rdf string with RDF text
-from_rdf <- function(rdf, format = 'application/nquads'){
+jsonld_from_rdf <- function(rdf, format = 'application/nquads'){
   stopifnot(is.character(rdf))
   structure(ctx$call("r_from_rdf", rdf, format), class = "json")
 }
 
 #' @export
 #' @rdname jsonld
-to_rdf <- function(doc, format = 'application/nquads'){
+jsonld_to_rdf <- function(doc, format = 'application/nquads'){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")
   ctx$call("r_to_rdf", V8::JS(doc), format)
@@ -86,7 +87,7 @@ to_rdf <- function(doc, format = 'application/nquads'){
 #' @rdname jsonld
 #' @param algorithm normalization algorithm
 #' @param format a MIME type
-normalize <- function(doc, algorithm = 'URDNA2015', format = 'application/nquads'){
+jsonld_normalize <- function(doc, algorithm = 'URDNA2015', format = 'application/nquads'){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")
   ctx$call("r_normalize", V8::JS(doc), algorithm, format)

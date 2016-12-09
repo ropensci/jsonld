@@ -43,21 +43,21 @@ context <- '{
 ### Compact and expand:
 
 ```{r}
-(out <- jsonld::compact(doc, context))
-(expanded <- jsonld::expand(out))
+(out <- jsonld_compact(doc, context))
+(expanded <- jsonld_expand(out))
 ```
 
 ### Convert between JSON and RDF:
 
 ```{r}
-cat(nquads <- jsonld::to_rdf(doc))
-jsonld::from_rdf(nquads)
+cat(nquads <- jsonld_to_rdf(doc))
+jsonld_from_rdf(nquads)
 ```
 
 ### Other utilities:
 
 ```{r}
-jsonld::flatten(doc)
-cat(jsonld::normalize(doc, algorithm = 'URDNA2015', format = 'application/nquads'))
+jsonld_flatten(doc)
+cat(jsonld_normalize(doc, algorithm = 'URDNA2015', format = 'application/nquads'))
 ```
 

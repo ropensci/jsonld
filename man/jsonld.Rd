@@ -2,28 +2,29 @@
 % Please edit documentation in R/wrappers.R
 \name{jsonld}
 \alias{jsonld}
-\alias{compact}
-\alias{expand}
-\alias{flatten}
-\alias{frame}
-\alias{from_rdf}
-\alias{to_rdf}
-\alias{normalize}
+\alias{jsonld_compact}
+\alias{jsonld_expand}
+\alias{jsonld_flatten}
+\alias{jsonld_frame}
+\alias{jsonld_from_rdf}
+\alias{jsonld_to_rdf}
+\alias{jsonld_normalize}
 \title{Working with JSON-LD}
 \usage{
-compact(doc, context)
+jsonld_compact(doc, context)
 
-expand(compacted)
+jsonld_expand(compacted)
 
-flatten(doc)
+jsonld_flatten(doc)
 
-frame(doc)
+jsonld_frame(doc)
 
-from_rdf(rdf, format = "application/nquads")
+jsonld_from_rdf(rdf, format = "application/nquads")
 
-to_rdf(doc, format = "application/nquads")
+jsonld_to_rdf(doc, format = "application/nquads")
 
-normalize(doc, algorithm = "URDNA2015", format = "application/nquads")
+jsonld_normalize(doc, algorithm = "URDNA2015",
+  format = "application/nquads")
 }
 \arguments{
 \item{doc}{string with JSON-LD document}
@@ -45,6 +46,7 @@ to convert between R objects and JSON format. The \href{https://github.com/ropen
 has basic examples.
 }
 \examples{
+# Example from https://github.com/digitalbazaar/jsonld.js#quick-examples
 doc <- '{
   "http://schema.org/name": "Manu Sporny",
   "http://schema.org/url": {"@id": "http://manu.sporny.org/"},
@@ -58,15 +60,15 @@ context <- '{
 }'
 
 # Compact and expand:
-(out <- jsonld::compact(doc, context))
-(expanded <- jsonld::expand(out))
+(out <- jsonld_compact(doc, context))
+(expanded <- jsonld_expand(out))
 
 # Convert between JSON and RDF:
-cat(nquads <- jsonld::to_rdf(doc))
-jsonld::from_rdf(nquads)
+cat(nquads <- jsonld_to_rdf(doc))
+jsonld_from_rdf(nquads)
 
 # Other utilities:
-jsonld::flatten(doc)
-cat(jsonld::normalize(doc))
+jsonld_flatten(doc)
+cat(jsonld_normalize(doc))
 }
 
