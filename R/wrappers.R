@@ -10,6 +10,29 @@
 #' @name jsonld
 #' @param doc string with JSON-LD document
 #' @param context string with JSON-LD context
+#' @examples doc <- '{
+#'   "http://schema.org/name": "Manu Sporny",
+#'   "http://schema.org/url": {"@id": "http://manu.sporny.org/"},
+#'   "http://schema.org/image": {"@id": "http://manu.sporny.org/images/manu.png"}
+#' }'
+#'
+#' context <- '{
+#'   "name": "http://schema.org/name",
+#'   "homepage": {"@id": "http://schema.org/url", "@type": "@id"},
+#'   "image": {"@id": "http://schema.org/image", "@type": "@id"}
+#' }'
+#'
+#' # Compact and expand:
+#' (out <- jsonld::compact(doc, context))
+#' (expanded <- jsonld::expand(out))
+#'
+#' # Convert between JSON and RDF:
+#' cat(nquads <- jsonld::to_rdf(doc))
+#' jsonld::from_rdf(nquads)
+#'
+#' # Other utilities:
+#' jsonld::flatten(doc)
+#' cat(jsonld::normalize(doc))
 compact <- function(doc, context){
   if(!jsonlite::validate(doc))
     stop("Argument 'doc' is not a valid JSON string")

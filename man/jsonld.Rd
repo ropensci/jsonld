@@ -44,4 +44,29 @@ and return values must be JSON strings. Use \link[jsonlite:toJSON]{jsonlite::toJ
 to convert between R objects and JSON format. The \href{https://github.com/ropensci/jsonld#readme}{readme}
 has basic examples.
 }
+\examples{
+doc <- '{
+  "http://schema.org/name": "Manu Sporny",
+  "http://schema.org/url": {"@id": "http://manu.sporny.org/"},
+  "http://schema.org/image": {"@id": "http://manu.sporny.org/images/manu.png"}
+}'
+
+context <- '{
+  "name": "http://schema.org/name",
+  "homepage": {"@id": "http://schema.org/url", "@type": "@id"},
+  "image": {"@id": "http://schema.org/image", "@type": "@id"}
+}'
+
+# Compact and expand:
+(out <- jsonld::compact(doc, context))
+(expanded <- jsonld::expand(out))
+
+# Convert between JSON and RDF:
+cat(nquads <- jsonld::to_rdf(doc))
+jsonld::from_rdf(nquads)
+
+# Other utilities:
+jsonld::flatten(doc)
+cat(jsonld::normalize(doc))
+}
 
