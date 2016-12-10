@@ -11,33 +11,37 @@
 \alias{jsonld_normalize}
 \title{Working with JSON-LD}
 \usage{
-jsonld_compact(doc, context)
+jsonld_compact(doc, context, options = NULL)
 
-jsonld_expand(compacted)
+jsonld_expand(compacted, options = NULL)
 
-jsonld_flatten(doc)
+jsonld_flatten(doc, context = NULL, options = NULL)
 
-jsonld_frame(doc)
+jsonld_frame(doc, frame, options = NULL)
 
-jsonld_from_rdf(rdf, format = "application/nquads")
+jsonld_from_rdf(rdf, options = list(format = "application/nquads"))
 
-jsonld_to_rdf(doc, format = "application/nquads")
+jsonld_to_rdf(doc, options = list(format = "application/nquads"))
 
-jsonld_normalize(doc, algorithm = "URDNA2015",
-  format = "application/nquads")
+jsonld_normalize(doc, options = list(algorithm = "URDNA2015", format =
+  "application/nquads"))
 }
 \arguments{
 \item{doc}{string with JSON-LD document}
 
 \item{context}{string with JSON-LD context}
 
+\item{options}{named list with advanced options}
+
 \item{compacted}{string with JSON message}
+
+\item{frame}{string with JSON-LD frame}
 
 \item{rdf}{string with RDF text}
 
-\item{format}{a MIME type}
-
 \item{algorithm}{normalization algorithm}
+
+\item{format}{a MIME type}
 }
 \description{
 Wrappers for converting, expanding and compacting JSON-LD documents. All parameters
