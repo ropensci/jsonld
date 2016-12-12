@@ -1,6 +1,6 @@
 # R bindings for jsonld.js
 
-Tests at: 2016-12-12 21:25:01 
+Tests at: 2016-12-12 21:52:41 
 
 ## Failures for jsonld.compact
 
@@ -80,6 +80,11 @@ Found output:
 
 ```
 
+
+
+### Test: `frame-0027-in.jsonld`
+
+**RUNTIME ERROR!!**:  TypeError: Cannot use 'in' operator to search for '@omitDefault' in undefined 
 
 
 ### Test: `frame-0028-in.jsonld`
@@ -217,6 +222,11 @@ Found output:
 
 
 
+### Test: `frame-0033-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
 ### Test: `frame-0034-in.jsonld`
 
 Expected:
@@ -249,6 +259,51 @@ Found output:
 
 ```
 
+
+
+### Test: `frame-0037-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0038-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0039-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0040-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0041-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0042-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0043-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0044-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+
+
+### Test: `frame-0045-in.jsonld`
+
+**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
 
 
 ### Test: `frame-0047-in.jsonld`

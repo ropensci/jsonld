@@ -40,7 +40,7 @@ function r_compact(doc, context, options){
     compacted = y;
   });
   if(err) throw err;
-  if(!compacted) throw "Invalid input";
+  if(compacted === undefined) throw "Invalid input";
   return JSON.stringify(compacted, null, 2);
 }
 
@@ -52,7 +52,7 @@ function r_expand(compacted, options){
     expanded = y;
   });
   if(err) throw err;
-  if(!expanded) throw "Invalid input";
+  if(expanded === undefined) throw "Invalid input";
   return JSON.stringify(expanded, null, 2);
 }
 
@@ -64,7 +64,7 @@ function r_flatten(doc, context, options){
     flattened = y;
   });
   if(err) throw err;
-  if(!flattened) throw "Invalid input";
+  if(flattened === undefined) throw "Invalid input";
   return JSON.stringify(flattened, null, 2);
 }
 
@@ -76,7 +76,7 @@ function r_frame(doc, frame, options){
     framed = y;
   });
   if(err) throw err;
-  if(!framed) throw "Invalid input";
+  if(framed === undefined) throw "Invalid input";
   return JSON.stringify(framed, null, 2);
 }
 
@@ -88,7 +88,7 @@ function r_normalize(doc, options){
     normalized = y;
   });
   if(err) throw err;
-  if(!normalized) throw "Invalid input";
+  if(normalized === undefined) throw "Invalid input";
   return normalized;
 }
 
@@ -100,7 +100,7 @@ function r_to_rdf(doc, options){
     nquads = y;
   });
   if(err) throw err;
-  if(!nquads) throw "Invalid input";
+  if(nquads === undefined) throw "Invalid input";
   return nquads;
 }
 
@@ -112,6 +112,6 @@ function r_from_rdf(text, options){
     doc = y;
   });
   if(err) throw err;
-  if(!doc) throw "Invalid input";
+  if(doc === undefined) throw "Invalid input";
   return JSON.stringify(doc, null, 2);
 }
