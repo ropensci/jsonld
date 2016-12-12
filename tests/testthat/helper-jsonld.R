@@ -22,7 +22,7 @@ report_line <- function(str){
 
 report_test <- function(x){
   if(x$success) return()
-  report_line(sprintf("\n### Failure for: `%s`\n", x$input))
+  report_line(sprintf("\n### Test: `%s`\n", x$input))
   report_line("Expected:\n```json")
   report_line(jsonlite::prettify(tf(x$expect)))
   report_line("```\n")
@@ -30,3 +30,7 @@ report_test <- function(x){
   report_line(jsonlite::prettify(x$output))
   report_line("```\n\n")
 }
+
+report_line("# R bindings for jsonld.js\n")
+report_line(paste("Tests at:", Sys.time(), "\n"))
+

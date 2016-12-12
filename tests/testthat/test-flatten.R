@@ -2,15 +2,17 @@ context("flatten")
 
 # Read all test files
 tests <- jsonlite::fromJSON(tf("flatten-manifest.jsonld"), simplifyVector = FALSE)
+report_line("## Failures for jsonld.flatten\n")
 
 # Test jsonld_compact
 lapply(tests$sequence, function(x){
   test_that(paste(x[["@id"]], x$name), {
     expect <- tf(x$expect)
-    out <- jsonld_flatten(tf(x$input), options = list(
-      base = "http://json-ld.org/test-suite/tests/"
-    ))
-    expect_true(json_equal(out, expect))
-    #cat("OUT:\n", out, "\nEXPECT:", expect)
+    if(is.null(x$option$base))
+      x$option$base <- paste0(tests$baseIri, x$input)
+    x$output <- jsonld_flatten(tf(x$input), options = x$option)
+    x$success <- json_equal(x$output, expect)
+    expect_true(x$success)
+    report_test(x)
   })
 })
