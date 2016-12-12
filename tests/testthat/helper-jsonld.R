@@ -15,6 +15,10 @@ json_equal <- local({
   }
 })
 
+pretty <- function(str){
+  tryCatch(jsonlite::prettify(str), error = function(e) {str})
+}
+
 con <- file("report.md", open = "w")
 
 report_line <- function(str){
@@ -25,10 +29,10 @@ report_test <- function(x){
   if(x$success) return()
   report_line(sprintf("\n### Test: `%s`\n", x$input))
   report_line("Expected:\n```json")
-  report_line(jsonlite::prettify(tf(x$expect)))
+  report_line(pretty(tf(x$expect)))
   report_line("```\n")
   report_line("Found output:\n```json")
-  report_line(jsonlite::prettify(x$output))
+  report_line(pretty(x$output))
   report_line("```\n\n")
 }
 
