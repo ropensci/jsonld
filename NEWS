@@ -1,6 +1,7 @@
 1.1
   - Add support for URL parameters
-  - Lots of fixes
+  - Add unit test suite from http://json-ld.org/test-suite/
+  - Lots of small fixes
 
 1.0
   - Initial CRAN release
