@@ -13,3 +13,20 @@ json_equal <- local({
     ctx$call("json_equal", a, b)
   }
 })
+
+con <- file("report.md", open = "w")
+
+report_line <- function(str){
+  writeLines(paste(str, collapse = "\n"), con = con)
+}
+
+report_test <- function(x){
+  if(x$success) return()
+  report_line(sprintf("\n### Failure for: `%s`\n", x$input))
+  report_line("Expected:\n```json")
+  report_line(jsonlite::prettify(tf(x$expect)))
+  report_line("```\n")
+  report_line("Found output:\n```json")
+  report_line(jsonlite::prettify(x$output))
+  report_line("```\n\n")
+}

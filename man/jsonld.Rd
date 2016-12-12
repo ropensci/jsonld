@@ -27,21 +27,17 @@ jsonld_normalize(doc, options = list(algorithm = "URDNA2015", format =
   "application/nquads"))
 }
 \arguments{
-\item{doc}{string with JSON-LD document}
+\item{doc}{a URL or literal string with JSON-LD document}
 
-\item{context}{string with JSON-LD context}
+\item{context}{a URL or literal string with JSON-LD context}
 
 \item{options}{named list with advanced options}
 
-\item{compacted}{string with JSON message}
+\item{compacted}{a URL or literal string with JSON message}
 
-\item{frame}{string with JSON-LD frame}
+\item{frame}{a URL or literal string with JSON-LD frame}
 
 \item{rdf}{string with RDF text}
-
-\item{algorithm}{normalization algorithm}
-
-\item{format}{a MIME type}
 }
 \description{
 Wrappers for converting, expanding and compacting JSON-LD documents. All parameters
