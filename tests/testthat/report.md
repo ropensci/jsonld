@@ -1,49 +1,12 @@
 # R bindings for jsonld.js
 
-Tests at: 2016-12-12 21:52:41 
+Tests at: 2016-12-12 23:20:20 
 
 ## Failures for jsonld.compact
 
 ## Failures for jsonld.expand
 
 ## Failures for jsonld.flatten
-
-
-### Test: `flatten-0044-in.jsonld`
-
-Expected:
-```json
-{
-    "@context": {
-        "term": "http://example/term"
-    },
-    "@graph": [
-        {
-            "@id": "http://example/foo",
-            "term": [
-                "value"
-            ]
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-[
-    {
-        "@id": "http://example/foo",
-        "http://example/term": [
-            {
-                "@value": "value"
-            }
-        ]
-    }
-]
-
-```
-
 
 ## Failures for jsonld.frame
 

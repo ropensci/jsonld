@@ -1,5 +1,6 @@
 # read a test file
 tf <- function(name){
+  if(is.null(name)) return(NULL)
   x <- normalizePath(file.path("../test-suite", name), mustWork = TRUE)
   paste(readLines(x, warn = FALSE), collapse = "\n")
 }

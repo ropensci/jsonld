@@ -10,7 +10,7 @@ lapply(tests$sequence, function(x){
     expect <- tf(x$expect)
     if(is.null(x$option$base))
       x$option$base <- paste0(tests$baseIri, x$input)
-    x$output <- jsonld_flatten(tf(x$input), options = x$option)
+    x$output <- jsonld_flatten(tf(x$input), tf(x$context), options = x$option)
     x$success <- json_equal(x$output, expect)
     expect_true(x$success)
     report_test(x)
