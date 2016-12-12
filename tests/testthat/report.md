@@ -1,8 +1,20 @@
 # R bindings for jsonld.js
 
-Tests at: 2016-12-12 23:52:55 
+Tests at: 2016-12-13 00:24:34 
 
 ## Failures for jsonld.compact
+
+## Failures for error messages
+
+
+### Test: `error-0042-in.jsonld`
+
+Failed to raise error!
+
+
+### Test: `error-0043-in.jsonld`
+
+Failed to raise error!
 
 ## Failures for jsonld.expand
 
