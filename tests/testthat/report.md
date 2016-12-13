@@ -1,6 +1,6 @@
 # R bindings for jsonld.js
 
-Tests at: 2016-12-13 00:24:34 
+Tests at: 2016-12-13 20:56:34 
 
 ## Failures for jsonld.compact
 
@@ -505,6 +505,23 @@ Found output:
 
 
 ## Failures for jsonld.fromRdf
+
+## Failures for normalize
+
+
+### Test: `normalize-0044-in.jsonld`
+
+**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
+
+
+### Test: `normalize-0045-in.jsonld`
+
+**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
+
+
+### Test: `normalize-0046-in.jsonld`
+
+**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
 
 ## Failures for jsonld.toRdf
 
