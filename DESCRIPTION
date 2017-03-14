@@ -3,7 +3,7 @@ Type: Package
 Title: JSON for Linking Data
 Version: 1.1
 Author: Jeroen Ooms
-Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Description: JSON-LD is a light-weight syntax for expressing linked data. It is primarily
     intended for web-based programming environments, interoperable web services and for 
     storing linked data in JSON-based databases. This package provides bindings to the 
