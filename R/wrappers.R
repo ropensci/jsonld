@@ -100,10 +100,14 @@ jsonld_normalize <- function(doc, options = list(algorithm = 'URDNA2015', format
 # Check if argument is a JSON string or URL
 validate_arg <- function(x){
   if(is.character(x) && length(x) == 1){
-    if(jsonlite::validate(x))
-      return(V8::JS(x))
     if(grepl("^https?://", x))
       return(x)
+    if(nchar(x) < 1024 && file.exists(x)){
+      buf <- readBin(x, raw(), file.info(x)$size)
+      x <- rawToChar(buf)
+    }
+    if(jsonlite::validate(x))
+      return(V8::JS(x))
   }
-  stop("Argument is not a valid URL or JSON string")
+  stop("Argument is not a valid file, URL or JSON string")
 }

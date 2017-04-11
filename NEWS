@@ -1,3 +1,6 @@
+1.2
+  - Support filename parameters (in addition to URLs and literal json)
+
 1.1
   - Add support for URL parameters
   - Add unit test suite from http://json-ld.org/test-suite/
