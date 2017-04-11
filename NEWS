@@ -1,5 +1,7 @@
 1.2
   - Support filename parameters (in addition to URLs and literal json)
+  - Add URLs to DESCRIPTION
+  - Update maintainer contact details
 
 1.1
   - Add support for URL parameters
