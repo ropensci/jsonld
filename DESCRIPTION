@@ -1,7 +1,7 @@
 Package: jsonld
 Type: Package
 Title: JSON for Linking Data
-Version: 1.2
+Version: 1.2.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Description: JSON-LD is a light-weight syntax for expressing linked data. It is primarily
