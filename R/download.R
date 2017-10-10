@@ -11,14 +11,10 @@ download <- function(url){
     }
     stop(sprintf("Download (HTTP %d): %s", req$status, url))
   }
-  headers <- curl::parse_headers(req$headers)
-  get_header <- function(name){
-    val <- grep(paste0("^", name, "[ \t]*:"), headers, ignore.case = TRUE, value = TRUE)
-    strsplit(val[1], ":[ \t]*")[[1]][2]
-  }
+  headers <- curl::parse_headers_list(req$headers)
   list(
-    content_type = jsonlite::unbox(get_header("content-type")),
-    link = jsonlite::unbox(get_header("link")),
+    content_type = jsonlite::unbox(headers[["content-type"]]),
+    link = jsonlite::unbox(headers[["link"]]),
     final_url = jsonlite::unbox(req$url),
     response_text = jsonlite::unbox(rawToChar(req$content))
   )
