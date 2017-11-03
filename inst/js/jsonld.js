@@ -1265,6 +1265,12 @@ jsonld.promises = function(options) {
     api = {};
   }
 
+  // The Web IDL test harness will check the number of parameters defined in
+  // the functions below. The number of parameters must exactly match the
+  // required (non-optional) parameters of the JsonLdProcessor interface as
+  // defined here:
+  // https://www.w3.org/TR/json-ld-api/#the-jsonldprocessor-interface
+
   api.expand = function(input) {
     if(arguments.length < 1) {
       throw new TypeError('Could not expand, too few arguments.');
@@ -1276,6 +1282,11 @@ jsonld.promises = function(options) {
       throw new TypeError('Could not compact, too few arguments.');
     }
     var compact = function(input, ctx, options, callback) {
+      if(typeof options === 'function') {
+        callback = options;
+        options = {};
+      }
+      options = options || {};
       // ensure only one value is returned in callback
       jsonld.compact(input, ctx, options, function(err, compacted) {
         callback(err, compacted);
@@ -1687,8 +1698,7 @@ jsonld.documentLoaders.jquery = function($, options) {
       },
       // ensure Accept header is very specific for JSON-LD/JSON
       headers: {
-        'Accept': 'application/ld+json, application/json',
-        'Upgrade-Insecure-Requests': '1'
+        'Accept': 'application/ld+json, application/json'
       },
       dataType: 'json',
       crossDomain: true,
@@ -1965,7 +1975,6 @@ jsonld.documentLoaders.xhr = function(options) {
         {contextUrl: null, documentUrl: url, document: null});
     };
     req.open('GET', url, true);
-    req.setRequestHeader('Upgrade-Insecure-Requests', '1');
     req.setRequestHeader('Accept', 'application/ld+json, application/json');
     req.send();
   }
@@ -6785,7 +6794,7 @@ function _retrieveContextUrls(input, options, callback) {
     // find all URLs in the given input
     if(!_findContextUrls(input, urls, false, base)) {
       // no new URLs in input
-      finished();
+      return finished();
     }
 
     // queue all unretrieved URLs
