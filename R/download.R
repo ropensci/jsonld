@@ -1,6 +1,7 @@
 download <- function(url){
   h <- curl::new_handle()
-  curl::handle_setheaders(h, "Accept" = "application/ld+json, application/json")
+  if(isTRUE(getOption('jsonld_use_accept', TRUE)))
+    curl::handle_setheaders(h, "Accept" = "application/ld+json, application/json")
   req <- curl::curl_fetch_memory(url, handle = h)
   if(req$status >= 400){
     json <- rawToChar(req$content)

@@ -1,6 +1,7 @@
 1.3
   - Improve error message for failed downloads
   - Switch to curl::parse_header_list(), may fix 'link' parsing
+  - Option 'jsonld_use_accept' (default TRUE) to disable content negotiation
 
 1.2
   - Support filename parameters (in addition to URLs and literal json)
