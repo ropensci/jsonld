@@ -1,3 +1,8 @@
+//Fix missing polyfill in jsonld 1.0.0
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 function setTimeout(fun){
   fun();
 }
