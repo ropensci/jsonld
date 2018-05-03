@@ -1,4 +1,6 @@
-1.3
+2.0
+  - Update of bunlded jsonld.js library to v1.0.1 (major update)
+  - Update the document loader to work with the new v1.0.1
   - Improve error message for failed downloads
   - Switch to curl::parse_header_list(), may fix 'link' parsing
   - Option 'jsonld_use_accept' (default TRUE) to disable content negotiation
