@@ -15,3 +15,6 @@ BugReports: https://github.com/ropensci/jsonld/issues
 Imports: V8, jsonlite, curl (>= 2.7)
 RoxygenNote: 5.0.1.9000
 Roxygen: list(markdown = TRUE)
+Suggests:
+    spelling
+Language: en-US
