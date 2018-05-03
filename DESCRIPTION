@@ -2,8 +2,10 @@ Package: jsonld
 Type: Package
 Title: JSON for Linking Data
 Version: 2.0
-Author: Jeroen Ooms
-Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Authors@R: c(
+    person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
+      comment = c(ORCID = "0000-0002-4035-0289")),
+    person("rOpenSci", role = "fnd", comment = "https://ropensci.org"))
 Description: JSON-LD is a light-weight syntax for expressing linked data. It is primarily
     intended for web-based programming environments, interoperable web services and for 
     storing linked data in JSON-based databases. This package provides bindings to the 
