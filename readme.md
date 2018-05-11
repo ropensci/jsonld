@@ -2,6 +2,7 @@
 
 > JSON for Linking Data
 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/jsonld.svg?branch=master)](https://travis-ci.org/ropensci/jsonld)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/jsonld?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/jsonld)
 [![Coverage Status](https://codecov.io/github/ropensci/jsonld/coverage.svg?branch=master)](https://codecov.io/github/ropensci/jsonld?branch=master)
