@@ -1,3 +1,6 @@
+2.1
+  - Refactor async code to work with upcoming version of V8
+
 2.0
   - Update of bunlded jsonld.js library to v1.0.1 (major update)
   - Update the document loader to work with the new v1.0.1

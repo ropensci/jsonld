@@ -1,7 +1,7 @@
 Package: jsonld
 Type: Package
 Title: JSON for Linking Data
-Version: 2.0
+Version: 2.1
 Authors@R: c(
     person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
       comment = c(ORCID = "0000-0002-4035-0289")),
