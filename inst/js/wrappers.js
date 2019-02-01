@@ -39,86 +39,38 @@ jsonld.documentLoaders.curl = function(options){
 
 jsonld.useDocumentLoader('curl');
 
+function store_value(err, val){
+  console.r.call('jsonld:::store_val', {set: {err : err, val : val}});
+}
+
+function store_json(err, val){
+  store_value(err, JSON.stringify(val, null, 2));
+}
+
 function r_compact(doc, context, options){
-  var err;
-  var compacted;
-  jsonld.compact(doc, context, options, function(x, y) {
-    err = x;
-    compacted = y;
-  });
-  if(err) throw err;
-  if(compacted === undefined) throw "Invalid input";
-  return JSON.stringify(compacted, null, 2);
+  jsonld.compact(doc, context, options, store_json);
 }
 
 function r_expand(compacted, options){
-  var err;
-  var expanded;
-  jsonld.expand(compacted, options, function(x, y) {
-    err = x;
-    expanded = y;
-  });
-  if(err) throw err;
-  if(expanded === undefined) throw "Invalid input";
-  return JSON.stringify(expanded, null, 2);
+  jsonld.expand(compacted, options, store_json);
 }
 
 function r_flatten(doc, context, options){
-  var err;
-  var flattened;
-  jsonld.flatten(doc, context, options, function(x, y) {
-    err = x;
-    flattened = y;
-  });
-  if(err) throw err;
-  if(flattened === undefined) throw "Invalid input";
-  return JSON.stringify(flattened, null, 2);
+  jsonld.flatten(doc, context, options, store_json);
 }
 
 function r_frame(doc, frame, options){
-  var err;
-  var framed;
-  jsonld.frame(doc, frame, options, function(x, y) {
-    err = x;
-    framed = y;
-  });
-  if(err) throw err;
-  if(framed === undefined) throw "Invalid input";
-  return JSON.stringify(framed, null, 2);
+  jsonld.frame(doc, frame, options, store_json);
 }
 
 function r_normalize(doc, options){
-  var err;
-  var normalized;
-  jsonld.normalize(doc, options, function(x, y) {
-    err = x;
-    normalized = y;
-  });
-  if(err) throw err;
-  if(normalized === undefined) throw "Invalid input";
-  return normalized;
+  jsonld.normalize(doc, options, store_value);
 }
 
 function r_to_rdf(doc, options){
-  var err;
-  var nquads;
-  jsonld.toRDF(doc, options, function(x, y) {
-    err = x;
-    nquads = y;
-  });
-  if(err) throw err;
-  if(nquads === undefined) throw "Invalid input";
-  return nquads;
+  jsonld.toRDF(doc, options, store_value);
 }
 
 function r_from_rdf(text, options){
-  var err;
-  var doc;
-  jsonld.fromRDF(text, options, function(x, y) {
-    err = x;
-    doc = y;
-  });
-  if(err) throw err;
-  if(doc === undefined) throw "Invalid input";
-  return JSON.stringify(doc, null, 2);
+  jsonld.fromRDF(text, options, store_json);
 }
