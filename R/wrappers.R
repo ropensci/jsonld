@@ -39,7 +39,8 @@ jsonld_compact <- function(doc, context, options = NULL){
   doc <- validate_arg(doc)
   context <- validate_arg(context)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
-  structure(ctx$call("r_compact", doc, context, options), class = "json")
+  ctx$call("r_compact", doc, context, options)
+  structure(store_val(), class = "json")
 }
 
 #' @export
@@ -48,7 +49,8 @@ jsonld_compact <- function(doc, context, options = NULL){
 jsonld_expand <- function(compacted, options = NULL){
   compacted <- validate_arg(compacted)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
-  structure(ctx$call("r_expand", compacted, options), class = "json")
+  ctx$call("r_expand", compacted, options)
+  structure(store_val(), class = "json")
 }
 
 #' @export
@@ -59,7 +61,8 @@ jsonld_flatten <- function(doc, context = NULL, options = NULL){
   doc <- validate_arg(doc)
   context <- validate_arg(context)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
-  structure(ctx$call("r_flatten", doc, context, options), class = "json")
+  ctx$call("r_flatten", doc, context, options)
+  structure(store_val(), class = "json")
 }
 
 #' @export
@@ -69,7 +72,8 @@ jsonld_frame <- function(doc, frame, options = NULL){
   doc <- validate_arg(doc)
   frame <- validate_arg(frame)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
-  structure(ctx$call("r_frame", doc, frame, options), class = "json")
+  ctx$call("r_frame", doc, frame, options)
+  structure(store_val(), class = "json")
 }
 
 #' @export
@@ -78,7 +82,8 @@ jsonld_frame <- function(doc, frame, options = NULL){
 jsonld_from_rdf <- function(rdf, options = list(format = 'application/nquads')){
   stopifnot(is.character(rdf))
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
-  structure(ctx$call("r_from_rdf", rdf, options), class = "json")
+  ctx$call("r_from_rdf", rdf, options)
+  structure(store_val(), class = "json")
 }
 
 #' @export
@@ -87,6 +92,7 @@ jsonld_to_rdf <- function(doc, options = list(format = 'application/nquads')){
   doc <- validate_arg(doc)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
   ctx$call("r_to_rdf", doc, options)
+  store_val()
 }
 
 #' @export
@@ -95,6 +101,7 @@ jsonld_normalize <- function(doc, options = list(algorithm = 'URDNA2015', format
   doc <- validate_arg(doc)
   options <- V8::JS(jsonlite::toJSON(options, auto_unbox = TRUE))
   ctx$call("r_normalize", doc, options)
+  store_val()
 }
 
 # Check if argument is a JSON string or URL
@@ -111,3 +118,20 @@ validate_arg <- function(x){
   }
   stop("Argument is not a valid file, URL or JSON string")
 }
+
+store_val <- local({
+  tmp = NULL
+  function(set){
+    if(missing(set)){
+      out <- tmp
+      tmp <<- NULL
+      if(length(out$err))
+        stop(out$err)
+      if(!length(out$val))
+        stop("Invalid jsonld input")
+      return(out$val)
+    } else {
+      tmp <<- set
+    }
+  }
+})

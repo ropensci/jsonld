@@ -1,8 +1,188 @@
 # R bindings for jsonld.js
 
-Tests at: 2016-12-13 20:56:34 
+Tests at: 2019-02-01 12:30:49 
 
 ## Failures for jsonld.compact
+
+
+### Test: `compact-0038-in.jsonld`
+
+Expected:
+```json
+{
+    "@context": {
+        "site": "http://example.com/",
+        "site-cd": "site:site-schema/content-deployment/",
+        "title": {
+            "@id": "site-cd:node/article/title",
+            "@container": "@index"
+        },
+        "body": {
+            "@id": "site-cd:node/article/body",
+            "@container": "@index"
+        },
+        "field_tags": {
+            "@id": "site-cd:node/article/field_tags",
+            "@container": "@index"
+        }
+    },
+    "@id": "site:node/1",
+    "@type": "site-cd:node/article",
+    "title": {
+        "en": {
+            "@type": "site-cd:field-types/title_field",
+            "title:/value": "This is the English title"
+        },
+        "es": {
+            "@type": "site-cd:field-types/title_field",
+            "title:/value": "Este es el t’tulo espa–ol"
+        }
+    },
+    "body": {
+        "en": {
+            "@type": "site-cd:field-types/text_with_summary",
+            "body:/value": "This is the English body. There is no Spanish body, so this will be displayed for both the English and Spanish versions.",
+            "body:/summary": "This is the teaser for the body.",
+            "body:/format": "full_html"
+        }
+    },
+    "field_tags": {
+        "en": {
+            "@type": "site-cd:taxonomy/term",
+            "@id": "site:taxonomy/term/1",
+            "site-cd:taxonomy/term/uuid": "e34b982c-98ac-4862-9b00-fa771a388010"
+        },
+        "es": [
+            {
+                "@type": "site-cd:taxonomy/term",
+                "@id": "site:taxonomy/term/1",
+                "site-cd:taxonomy/term/uuid": "e34b982c-98ac-4862-9b00-fa771a388010"
+            },
+            {
+                "@type": "site-cd:taxonomy/term",
+                "@id": "site:taxonomy/term/2",
+                "site-cd:taxonomy/term/uuid": "a55b982c-58ac-4862-9b00-aa221a388010"
+            }
+        ]
+    }
+}
+
+```
+
+Found output:
+```json
+{
+    "@context": {
+        "site": "http://example.com/",
+        "site-cd": "site:site-schema/content-deployment/",
+        "title": {
+            "@id": "site-cd:node/article/title",
+            "@container": "@index"
+        },
+        "body": {
+            "@id": "site-cd:node/article/body",
+            "@container": "@index"
+        },
+        "field_tags": {
+            "@id": "site-cd:node/article/field_tags",
+            "@container": "@index"
+        }
+    },
+    "@id": "site:node/1",
+    "@type": "site-cd:node/article",
+    "body": {
+        "en": {
+            "@type": "site-cd:field-types/text_with_summary",
+            "site-cd:node/article/body/format": "full_html",
+            "site-cd:node/article/body/summary": "This is the teaser for the body.",
+            "site-cd:node/article/body/value": "This is the English body. There is no Spanish body, so this will be displayed for both the English and Spanish versions."
+        }
+    },
+    "field_tags": {
+        "en": {
+            "@id": "site:taxonomy/term/1",
+            "@type": "site-cd:taxonomy/term",
+            "site-cd:taxonomy/term/uuid": "e34b982c-98ac-4862-9b00-fa771a388010"
+        },
+        "es": [
+            {
+                "@id": "site:taxonomy/term/1",
+                "@type": "site-cd:taxonomy/term",
+                "site-cd:taxonomy/term/uuid": "e34b982c-98ac-4862-9b00-fa771a388010"
+            },
+            {
+                "@id": "site:taxonomy/term/2",
+                "@type": "site-cd:taxonomy/term",
+                "site-cd:taxonomy/term/uuid": "a55b982c-58ac-4862-9b00-aa221a388010"
+            }
+        ]
+    },
+    "title": {
+        "en": {
+            "@type": "site-cd:field-types/title_field",
+            "site-cd:node/article/title/value": "This is the English title"
+        },
+        "es": {
+            "@type": "site-cd:field-types/title_field",
+            "site-cd:node/article/title/value": "Este es el t’tulo espa–ol"
+        }
+    }
+}
+
+```
+
+
+
+### Test: `compact-0045-in.jsonld`
+
+Expected:
+```json
+{
+    "@context": {
+        "term": "http://example.com/terms-are-not-considered-in-id",
+        "compact-iris": "http://example.com/compact-iris-",
+        "property": "http://example.com/property",
+        "@vocab": "http://example.org/vocab-is-not-considered-for-id"
+    },
+    "@id": "term",
+    "property": [
+        {
+            "@id": "compact-iris:are-considered",
+            "property": "@id supports the following values: relative, absolute, and compact IRIs"
+        },
+        {
+            "@id": "../parent-node",
+            "property": "relative IRIs get resolved against the document's base IRI"
+        }
+    ]
+}
+
+```
+
+Found output:
+```json
+{
+    "@context": {
+        "term": "http://example.com/terms-are-not-considered-in-id",
+        "compact-iris": "http://example.com/compact-iris-",
+        "property": "http://example.com/property",
+        "@vocab": "http://example.org/vocab-is-not-considered-for-id"
+    },
+    "@id": "term",
+    "property": [
+        {
+            "@id": "http://example.com/compact-iris-are-considered",
+            "property": "@id supports the following values: relative, absolute, and compact IRIs"
+        },
+        {
+            "@id": "../parent-node",
+            "property": "relative IRIs get resolved against the document's base IRI"
+        }
+    ]
+}
+
+```
+
 
 ## Failures for error messages
 
@@ -23,1219 +203,37 @@ Failed to raise error!
 ## Failures for jsonld.frame
 
 
-### Test: `frame-0023-in.jsonld`
+### Test: `frame-0010-in.jsonld`
 
-Expected:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "ex:p": null,
-            "ex:q": "bar"
-        }
-    ]
-}
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
-```
 
-Found output:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
+### Test: `frame-0020-in.jsonld`
 
-    ]
-}
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
-```
 
+### Test: `frame-0046-in.jsonld`
 
-
-### Test: `frame-0027-in.jsonld`
-
-**RUNTIME ERROR!!**:  TypeError: Cannot use 'in' operator to search for '@omitDefault' in undefined 
-
-
-### Test: `frame-0028-in.jsonld`
-
-Expected:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "@type": "ex:Type1",
-            "@reverse": {
-                "ex:includes": {
-                    "@id": "ex:Sub2",
-                    "@type": "ex:Type2",
-                    "ex:includes": {
-                        "@id": "ex:Sub1"
-                    }
-                }
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "@type": "ex:Type1"
-        }
-    ]
-}
-
-```
-
-
-
-### Test: `frame-0029-in.jsonld`
-
-Expected:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/",
-        "excludes": {
-            "@reverse": "ex:includes"
-        }
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "@type": "ex:Type1",
-            "excludes": {
-                "@id": "ex:Sub2",
-                "@type": "ex:Type2",
-                "ex:includes": {
-                    "@id": "ex:Sub1"
-                }
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/",
-        "excludes": {
-            "@reverse": "ex:includes"
-        }
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "@type": "ex:Type1"
-        }
-    ]
-}
-
-```
-
-
-
-### Test: `frame-0031-in.jsonld`
-
-Expected:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub2",
-            "ex:p": "Bar"
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "@type": "ex:Type1",
-            "ex:p": "Foo"
-        },
-        {
-            "@id": "ex:Sub2",
-            "ex:p": "Bar"
-        }
-    ]
-}
-
-```
-
-
-
-### Test: `frame-0033-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0034-in.jsonld`
-
-Expected:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "ex:Sub1",
-            "ex:p": null,
-            "ex:q": "bar"
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "ex": "http://example.org/"
-    },
-    "@graph": [
-
-    ]
-}
-
-```
-
-
-
-### Test: `frame-0037-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0038-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0039-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0040-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0041-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0042-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0043-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0044-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
-
-
-### Test: `frame-0045-in.jsonld`
-
-**RUNTIME ERROR!!**:  jsonld.FrameError: Could not expand frame before framing. 
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
 
 ### Test: `frame-0047-in.jsonld`
 
-Expected:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "preserve": {
-                "@id": "urn:gr-1",
-                "@graph": [
-                    {
-                        "@id": "urn:id-2",
-                        "term": "data"
-                    }
-                ]
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "preserve": {
-                "@id": "urn:gr-1"
-            }
-        }
-    ]
-}
-
-```
-
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
 
 ### Test: `frame-0048-in.jsonld`
 
-Expected:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "merge": {
-                "@id": "urn:id-2",
-                "term": "foo"
-            },
-            "preserve": {
-                "@id": "urn:graph-1",
-                "@graph": [
-                    {
-                        "@id": "urn:id-3",
-                        "term": "bar"
-                    }
-                ]
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "merge": {
-                "@id": "urn:id-2",
-                "term": "foo"
-            },
-            "preserve": {
-                "@id": "urn:graph-1"
-            }
-        }
-    ]
-}
-
-```
-
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
 
 ### Test: `frame-0049-in.jsonld`
 
-Expected:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "merge": {
-                "@id": "urn:id-2",
-                "term": "foo"
-            },
-            "preserve": {
-                "@id": "_:b0",
-                "deep": {
-                    "@id": "_:b1",
-                    "@graph": [
-                        {
-                            "@id": "urn:id-3",
-                            "term": "bar"
-                        }
-                    ]
-                }
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "@vocab": "urn:"
-    },
-    "@graph": [
-        {
-            "@id": "urn:id-1",
-            "@type": "Class",
-            "merge": {
-                "@id": "urn:id-2",
-                "term": "foo"
-            },
-            "preserve": {
-                "@id": "_:b0",
-                "deep": {
-                    "@id": "_:b1"
-                }
-            }
-        }
-    ]
-}
-
-```
-
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
 
 ### Test: `frame-0050-in.jsonld`
 
-Expected:
-```json
-{
-    "@context": {
-        "@vocab": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "http://example.org/library",
-            "@type": "Library",
-            "name": "Library",
-            "contains": {
-                "@id": "http://example.org/graphs/books",
-                "@graph": [
-                    {
-                        "@id": "http://example.org/library/the-republic",
-                        "@type": "Book",
-                        "creator": "Plato",
-                        "title": "The Republic",
-                        "contains": {
-                            "@id": "http://example.org/library/the-republic#introduction",
-                            "@type": "Chapter",
-                            "description": "An introductory chapter on The Republic.",
-                            "title": "The Introduction"
-                        }
-                    }
-                ]
-            }
-        }
-    ]
-}
-
-```
-
-Found output:
-```json
-{
-    "@context": {
-        "@vocab": "http://example.org/"
-    },
-    "@graph": [
-        {
-            "@id": "http://example.org/library",
-            "@type": "Library",
-            "contains": {
-                "@id": "http://example.org/graphs/books"
-            },
-            "name": "Library"
-        }
-    ]
-}
-
-```
-
-
-## Failures for jsonld.fromRdf
-
-## Failures for normalize
-
-
-### Test: `normalize-0044-in.jsonld`
-
-**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
-
-
-### Test: `normalize-0045-in.jsonld`
-
-**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
-
-
-### Test: `normalize-0046-in.jsonld`
-
-**RUNTIME ERROR!!**:  RangeError: Maximum call stack size exceeded 
-
-## Failures for jsonld.toRdf
-
-
-### Test: `toRdf-0120-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s001> <urn:ex:p> <g:h> .
-<urn:ex:s002> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s003> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s004> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s005> <urn:ex:p> <http://a/g> .
-<urn:ex:s006> <urn:ex:p> <http://g> .
-<urn:ex:s007> <urn:ex:p> <http://a/bb/ccc/d;p?y> .
-<urn:ex:s008> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s009> <urn:ex:p> <http://a/bb/ccc/d;p?q#s> .
-<urn:ex:s010> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s011> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s012> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s013> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s014> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s015> <urn:ex:p> <http://a/bb/ccc/d;p?q> .
-<urn:ex:s016> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s017> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s018> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s019> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s020> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s021> <urn:ex:p> <http://a/> .
-<urn:ex:s022> <urn:ex:p> <http://a/> .
-<urn:ex:s023> <urn:ex:p> <http://a/g> .
-<urn:ex:s024> <urn:ex:p> <http://a/g> .
-<urn:ex:s025> <urn:ex:p> <http://a/g> .
-<urn:ex:s026> <urn:ex:p> <http://a/g> .
-<urn:ex:s027> <urn:ex:p> <http://a/g> .
-<urn:ex:s028> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s029> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s030> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s031> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s032> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s033> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s034> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s035> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s036> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s037> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s038> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s039> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s040> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s041> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s042> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s001> <urn:ex:p> <g:h> .
-<urn:ex:s002> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s003> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s004> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s005> <urn:ex:p> <http://a/g> .
-<urn:ex:s006> <urn:ex:p> <http://g> .
-<urn:ex:s007> <urn:ex:p> <http://a/bb/ccc/d;p?y> .
-<urn:ex:s008> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s009> <urn:ex:p> <http://a/bb/ccc/d;p?q#s> .
-<urn:ex:s010> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s011> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s012> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s013> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s014> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s015> <urn:ex:p> <http://a/bb/ccc/d;p?q> .
-<urn:ex:s016> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s017> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s018> <urn:ex:p> <http://a/bb> .
-<urn:ex:s019> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s020> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s021> <urn:ex:p> <http://a/> .
-<urn:ex:s022> <urn:ex:p> <http://a/> .
-<urn:ex:s023> <urn:ex:p> <http://a/g> .
-<urn:ex:s024> <urn:ex:p> <http://a/g> .
-<urn:ex:s025> <urn:ex:p> <http://a/g> .
-<urn:ex:s026> <urn:ex:p> <http://a/g> .
-<urn:ex:s027> <urn:ex:p> <http://a/g> .
-<urn:ex:s028> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s029> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s030> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s031> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s032> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s033> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s034> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s035> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s036> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s037> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s038> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s039> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s040> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s041> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s042> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0121-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s043> <urn:ex:p> <g:h> .
-<urn:ex:s044> <urn:ex:p> <http://a/bb/ccc/d/g> .
-<urn:ex:s045> <urn:ex:p> <http://a/bb/ccc/d/g> .
-<urn:ex:s046> <urn:ex:p> <http://a/bb/ccc/d/g/> .
-<urn:ex:s047> <urn:ex:p> <http://a/g> .
-<urn:ex:s048> <urn:ex:p> <http://g> .
-<urn:ex:s049> <urn:ex:p> <http://a/bb/ccc/d/?y> .
-<urn:ex:s050> <urn:ex:p> <http://a/bb/ccc/d/g?y> .
-<urn:ex:s051> <urn:ex:p> <http://a/bb/ccc/d/#s> .
-<urn:ex:s052> <urn:ex:p> <http://a/bb/ccc/d/g#s> .
-<urn:ex:s053> <urn:ex:p> <http://a/bb/ccc/d/g?y#s> .
-<urn:ex:s054> <urn:ex:p> <http://a/bb/ccc/d/;x> .
-<urn:ex:s055> <urn:ex:p> <http://a/bb/ccc/d/g;x> .
-<urn:ex:s056> <urn:ex:p> <http://a/bb/ccc/d/g;x?y#s> .
-<urn:ex:s057> <urn:ex:p> <http://a/bb/ccc/d/> .
-<urn:ex:s058> <urn:ex:p> <http://a/bb/ccc/d/> .
-<urn:ex:s059> <urn:ex:p> <http://a/bb/ccc/d/> .
-<urn:ex:s060> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s061> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s062> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s063> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s064> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s065> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s066> <urn:ex:p> <http://a/g> .
-<urn:ex:s067> <urn:ex:p> <http://a/g> .
-<urn:ex:s068> <urn:ex:p> <http://a/g> .
-<urn:ex:s069> <urn:ex:p> <http://a/g> .
-<urn:ex:s070> <urn:ex:p> <http://a/bb/ccc/d/g.> .
-<urn:ex:s071> <urn:ex:p> <http://a/bb/ccc/d/.g> .
-<urn:ex:s072> <urn:ex:p> <http://a/bb/ccc/d/g..> .
-<urn:ex:s073> <urn:ex:p> <http://a/bb/ccc/d/..g> .
-<urn:ex:s074> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s075> <urn:ex:p> <http://a/bb/ccc/d/g/> .
-<urn:ex:s076> <urn:ex:p> <http://a/bb/ccc/d/g/h> .
-<urn:ex:s077> <urn:ex:p> <http://a/bb/ccc/d/h> .
-<urn:ex:s078> <urn:ex:p> <http://a/bb/ccc/d/g;x=1/y> .
-<urn:ex:s079> <urn:ex:p> <http://a/bb/ccc/d/y> .
-<urn:ex:s080> <urn:ex:p> <http://a/bb/ccc/d/g?y/./x> .
-<urn:ex:s081> <urn:ex:p> <http://a/bb/ccc/d/g?y/../x> .
-<urn:ex:s082> <urn:ex:p> <http://a/bb/ccc/d/g#s/./x> .
-<urn:ex:s083> <urn:ex:p> <http://a/bb/ccc/d/g#s/../x> .
-<urn:ex:s084> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s043> <urn:ex:p> <g:h> .
-<urn:ex:s044> <urn:ex:p> <http://a/bb/ccc/d/g> .
-<urn:ex:s045> <urn:ex:p> <http://a/bb/ccc/d/g> .
-<urn:ex:s046> <urn:ex:p> <http://a/bb/ccc/d/g/> .
-<urn:ex:s047> <urn:ex:p> <http://a/g> .
-<urn:ex:s048> <urn:ex:p> <http://g> .
-<urn:ex:s049> <urn:ex:p> <http://a/bb/ccc/d/?y> .
-<urn:ex:s050> <urn:ex:p> <http://a/bb/ccc/d/g?y> .
-<urn:ex:s051> <urn:ex:p> <http://a/bb/ccc/d/#s> .
-<urn:ex:s052> <urn:ex:p> <http://a/bb/ccc/d/g#s> .
-<urn:ex:s053> <urn:ex:p> <http://a/bb/ccc/d/g?y#s> .
-<urn:ex:s054> <urn:ex:p> <http://a/bb/ccc/d/;x> .
-<urn:ex:s055> <urn:ex:p> <http://a/bb/ccc/d/g;x> .
-<urn:ex:s056> <urn:ex:p> <http://a/bb/ccc/d/g;x?y#s> .
-<urn:ex:s057> <urn:ex:p> <http://a/bb/ccc/d/> .
-<urn:ex:s058> <urn:ex:p> <http://a/bb/ccc/d> .
-<urn:ex:s059> <urn:ex:p> <http://a/bb/ccc/d/> .
-<urn:ex:s060> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s061> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s062> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s063> <urn:ex:p> <http://a/bb> .
-<urn:ex:s064> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s065> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s066> <urn:ex:p> <http://a/g> .
-<urn:ex:s067> <urn:ex:p> <http://a/g> .
-<urn:ex:s068> <urn:ex:p> <http://a/g> .
-<urn:ex:s069> <urn:ex:p> <http://a/g> .
-<urn:ex:s070> <urn:ex:p> <http://a/bb/ccc/d/g.> .
-<urn:ex:s071> <urn:ex:p> <http://a/bb/ccc/d/.g> .
-<urn:ex:s072> <urn:ex:p> <http://a/bb/ccc/d/g..> .
-<urn:ex:s073> <urn:ex:p> <http://a/bb/ccc/d/..g> .
-<urn:ex:s074> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s075> <urn:ex:p> <http://a/bb/ccc/d/g> .
-<urn:ex:s076> <urn:ex:p> <http://a/bb/ccc/d/g/h> .
-<urn:ex:s077> <urn:ex:p> <http://a/bb/ccc/d/h> .
-<urn:ex:s078> <urn:ex:p> <http://a/bb/ccc/d/g;x=1/y> .
-<urn:ex:s079> <urn:ex:p> <http://a/bb/ccc/d/y> .
-<urn:ex:s080> <urn:ex:p> <http://a/bb/ccc/d/g?y/./x> .
-<urn:ex:s081> <urn:ex:p> <http://a/bb/ccc/d/g?y/../x> .
-<urn:ex:s082> <urn:ex:p> <http://a/bb/ccc/d/g#s/./x> .
-<urn:ex:s083> <urn:ex:p> <http://a/bb/ccc/d/g#s/../x> .
-<urn:ex:s084> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0122-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s085> <urn:ex:p> <g:h> .
-<urn:ex:s086> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s087> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s088> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s089> <urn:ex:p> <http://a/g> .
-<urn:ex:s090> <urn:ex:p> <http://g> .
-<urn:ex:s091> <urn:ex:p> <http://a/bb/ccc/./d;p?y> .
-<urn:ex:s092> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s093> <urn:ex:p> <http://a/bb/ccc/./d;p?q#s> .
-<urn:ex:s094> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s095> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s096> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s097> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s098> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s099> <urn:ex:p> <http://a/bb/ccc/./d;p?q> .
-<urn:ex:s100> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s101> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s102> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s103> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s104> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s105> <urn:ex:p> <http://a/> .
-<urn:ex:s106> <urn:ex:p> <http://a/> .
-<urn:ex:s107> <urn:ex:p> <http://a/g> .
-<urn:ex:s108> <urn:ex:p> <http://a/g> .
-<urn:ex:s109> <urn:ex:p> <http://a/g> .
-<urn:ex:s110> <urn:ex:p> <http://a/g> .
-<urn:ex:s111> <urn:ex:p> <http://a/g> .
-<urn:ex:s112> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s113> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s114> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s115> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s116> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s117> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s118> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s119> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s120> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s121> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s122> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s123> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s124> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s125> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s126> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s085> <urn:ex:p> <g:h> .
-<urn:ex:s086> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s087> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s088> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s089> <urn:ex:p> <http://a/g> .
-<urn:ex:s090> <urn:ex:p> <http://g> .
-<urn:ex:s091> <urn:ex:p> <http://a/bb/ccc/d;p?y> .
-<urn:ex:s092> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s093> <urn:ex:p> <http://a/bb/ccc/d;p?q#s> .
-<urn:ex:s094> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s095> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s096> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s097> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s098> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s099> <urn:ex:p> <http://a/bb/ccc/d;p?q> .
-<urn:ex:s100> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s101> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s102> <urn:ex:p> <http://a/bb> .
-<urn:ex:s103> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s104> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s105> <urn:ex:p> <http://a/> .
-<urn:ex:s106> <urn:ex:p> <http://a/> .
-<urn:ex:s107> <urn:ex:p> <http://a/g> .
-<urn:ex:s108> <urn:ex:p> <http://a/g> .
-<urn:ex:s109> <urn:ex:p> <http://a/g> .
-<urn:ex:s110> <urn:ex:p> <http://a/g> .
-<urn:ex:s111> <urn:ex:p> <http://a/g> .
-<urn:ex:s112> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s113> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s114> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s115> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s116> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s117> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s118> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s119> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s120> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s121> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s122> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s123> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s124> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s125> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s126> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0123-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s127> <urn:ex:p> <g:h> .
-<urn:ex:s128> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s129> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s130> <urn:ex:p> <http://a/bb/g/> .
-<urn:ex:s131> <urn:ex:p> <http://a/g> .
-<urn:ex:s132> <urn:ex:p> <http://g> .
-<urn:ex:s133> <urn:ex:p> <http://a/bb/ccc/../d;p?y> .
-<urn:ex:s134> <urn:ex:p> <http://a/bb/g?y> .
-<urn:ex:s135> <urn:ex:p> <http://a/bb/ccc/../d;p?q#s> .
-<urn:ex:s136> <urn:ex:p> <http://a/bb/g#s> .
-<urn:ex:s137> <urn:ex:p> <http://a/bb/g?y#s> .
-<urn:ex:s138> <urn:ex:p> <http://a/bb/;x> .
-<urn:ex:s139> <urn:ex:p> <http://a/bb/g;x> .
-<urn:ex:s140> <urn:ex:p> <http://a/bb/g;x?y#s> .
-<urn:ex:s141> <urn:ex:p> <http://a/bb/ccc/../d;p?q> .
-<urn:ex:s142> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s143> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s144> <urn:ex:p> <http://a/> .
-<urn:ex:s145> <urn:ex:p> <http://a/> .
-<urn:ex:s146> <urn:ex:p> <http://a/g> .
-<urn:ex:s147> <urn:ex:p> <http://a/> .
-<urn:ex:s148> <urn:ex:p> <http://a/> .
-<urn:ex:s149> <urn:ex:p> <http://a/g> .
-<urn:ex:s150> <urn:ex:p> <http://a/g> .
-<urn:ex:s151> <urn:ex:p> <http://a/g> .
-<urn:ex:s152> <urn:ex:p> <http://a/g> .
-<urn:ex:s153> <urn:ex:p> <http://a/g> .
-<urn:ex:s154> <urn:ex:p> <http://a/bb/g.> .
-<urn:ex:s155> <urn:ex:p> <http://a/bb/.g> .
-<urn:ex:s156> <urn:ex:p> <http://a/bb/g..> .
-<urn:ex:s157> <urn:ex:p> <http://a/bb/..g> .
-<urn:ex:s158> <urn:ex:p> <http://a/g> .
-<urn:ex:s159> <urn:ex:p> <http://a/bb/g/> .
-<urn:ex:s160> <urn:ex:p> <http://a/bb/g/h> .
-<urn:ex:s161> <urn:ex:p> <http://a/bb/h> .
-<urn:ex:s162> <urn:ex:p> <http://a/bb/g;x=1/y> .
-<urn:ex:s163> <urn:ex:p> <http://a/bb/y> .
-<urn:ex:s164> <urn:ex:p> <http://a/bb/g?y/./x> .
-<urn:ex:s165> <urn:ex:p> <http://a/bb/g?y/../x> .
-<urn:ex:s166> <urn:ex:p> <http://a/bb/g#s/./x> .
-<urn:ex:s167> <urn:ex:p> <http://a/bb/g#s/../x> .
-<urn:ex:s168> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s127> <urn:ex:p> <g:h> .
-<urn:ex:s128> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s129> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s130> <urn:ex:p> <http://a/bb/g/> .
-<urn:ex:s131> <urn:ex:p> <http://a/g> .
-<urn:ex:s132> <urn:ex:p> <http://g> .
-<urn:ex:s133> <urn:ex:p> <http://a/bb/d;p?y> .
-<urn:ex:s134> <urn:ex:p> <http://a/bb/g?y> .
-<urn:ex:s135> <urn:ex:p> <http://a/bb/d;p?q#s> .
-<urn:ex:s136> <urn:ex:p> <http://a/bb/g#s> .
-<urn:ex:s137> <urn:ex:p> <http://a/bb/g?y#s> .
-<urn:ex:s138> <urn:ex:p> <http://a/bb/;x> .
-<urn:ex:s139> <urn:ex:p> <http://a/bb/g;x> .
-<urn:ex:s140> <urn:ex:p> <http://a/bb/g;x?y#s> .
-<urn:ex:s141> <urn:ex:p> <http://a/bb/d;p?q> .
-<urn:ex:s142> <urn:ex:p> <http://a/bb> .
-<urn:ex:s143> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s144> <urn:ex:p> <http://a/> .
-<urn:ex:s145> <urn:ex:p> <http://a/> .
-<urn:ex:s146> <urn:ex:p> <http://a/g> .
-<urn:ex:s147> <urn:ex:p> <http://a/> .
-<urn:ex:s148> <urn:ex:p> <http://a/> .
-<urn:ex:s149> <urn:ex:p> <http://a/g> .
-<urn:ex:s150> <urn:ex:p> <http://a/g> .
-<urn:ex:s151> <urn:ex:p> <http://a/g> .
-<urn:ex:s152> <urn:ex:p> <http://a/g> .
-<urn:ex:s153> <urn:ex:p> <http://a/g> .
-<urn:ex:s154> <urn:ex:p> <http://a/bb/g.> .
-<urn:ex:s155> <urn:ex:p> <http://a/bb/.g> .
-<urn:ex:s156> <urn:ex:p> <http://a/bb/g..> .
-<urn:ex:s157> <urn:ex:p> <http://a/bb/..g> .
-<urn:ex:s158> <urn:ex:p> <http://a/g> .
-<urn:ex:s159> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s160> <urn:ex:p> <http://a/bb/g/h> .
-<urn:ex:s161> <urn:ex:p> <http://a/bb/h> .
-<urn:ex:s162> <urn:ex:p> <http://a/bb/g;x=1/y> .
-<urn:ex:s163> <urn:ex:p> <http://a/bb/y> .
-<urn:ex:s164> <urn:ex:p> <http://a/bb/g?y/./x> .
-<urn:ex:s165> <urn:ex:p> <http://a/bb/g?y/../x> .
-<urn:ex:s166> <urn:ex:p> <http://a/bb/g#s/./x> .
-<urn:ex:s167> <urn:ex:p> <http://a/bb/g#s/../x> .
-<urn:ex:s168> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0124-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s169> <urn:ex:p> <g:h> .
-<urn:ex:s170> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s171> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s172> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s173> <urn:ex:p> <http://a/g> .
-<urn:ex:s174> <urn:ex:p> <http://g> .
-<urn:ex:s175> <urn:ex:p> <http://a/bb/ccc/.?y> .
-<urn:ex:s176> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s177> <urn:ex:p> <http://a/bb/ccc/.#s> .
-<urn:ex:s178> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s179> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s180> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s181> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s182> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s183> <urn:ex:p> <http://a/bb/ccc/.> .
-<urn:ex:s184> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s185> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s186> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s187> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s188> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s189> <urn:ex:p> <http://a/> .
-<urn:ex:s190> <urn:ex:p> <http://a/> .
-<urn:ex:s191> <urn:ex:p> <http://a/g> .
-<urn:ex:s192> <urn:ex:p> <http://a/g> .
-<urn:ex:s193> <urn:ex:p> <http://a/g> .
-<urn:ex:s194> <urn:ex:p> <http://a/g> .
-<urn:ex:s195> <urn:ex:p> <http://a/g> .
-<urn:ex:s196> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s197> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s198> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s199> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s200> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s201> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s202> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s203> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s204> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s205> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s206> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s207> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s208> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s209> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s210> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s169> <urn:ex:p> <g:h> .
-<urn:ex:s170> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s171> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s172> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s173> <urn:ex:p> <http://a/g> .
-<urn:ex:s174> <urn:ex:p> <http://g> .
-<urn:ex:s175> <urn:ex:p> <http://a/bb/ccc?y> .
-<urn:ex:s176> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s177> <urn:ex:p> <http://a/bb/ccc#s> .
-<urn:ex:s178> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s179> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s180> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s181> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s182> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s183> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s184> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s185> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s186> <urn:ex:p> <http://a/bb> .
-<urn:ex:s187> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s188> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s189> <urn:ex:p> <http://a/> .
-<urn:ex:s190> <urn:ex:p> <http://a/> .
-<urn:ex:s191> <urn:ex:p> <http://a/g> .
-<urn:ex:s192> <urn:ex:p> <http://a/g> .
-<urn:ex:s193> <urn:ex:p> <http://a/g> .
-<urn:ex:s194> <urn:ex:p> <http://a/g> .
-<urn:ex:s195> <urn:ex:p> <http://a/g> .
-<urn:ex:s196> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s197> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s198> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s199> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s200> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s201> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s202> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s203> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s204> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s205> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s206> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s207> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s208> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s209> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s210> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0125-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s211> <urn:ex:p> <g:h> .
-<urn:ex:s212> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s213> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s214> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s215> <urn:ex:p> <http://a/g> .
-<urn:ex:s216> <urn:ex:p> <http://g> .
-<urn:ex:s217> <urn:ex:p> <http://a/bb/ccc/..?y> .
-<urn:ex:s218> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s219> <urn:ex:p> <http://a/bb/ccc/..#s> .
-<urn:ex:s220> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s221> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s222> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s223> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s224> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s225> <urn:ex:p> <http://a/bb/ccc/..> .
-<urn:ex:s226> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s227> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s228> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s229> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s230> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s231> <urn:ex:p> <http://a/> .
-<urn:ex:s232> <urn:ex:p> <http://a/> .
-<urn:ex:s233> <urn:ex:p> <http://a/g> .
-<urn:ex:s234> <urn:ex:p> <http://a/g> .
-<urn:ex:s235> <urn:ex:p> <http://a/g> .
-<urn:ex:s236> <urn:ex:p> <http://a/g> .
-<urn:ex:s237> <urn:ex:p> <http://a/g> .
-<urn:ex:s238> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s239> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s240> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s241> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s242> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s243> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s244> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s245> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s246> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s247> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s248> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s249> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s250> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s251> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s252> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s211> <urn:ex:p> <g:h> .
-<urn:ex:s212> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s213> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s214> <urn:ex:p> <http://a/bb/ccc/g/> .
-<urn:ex:s215> <urn:ex:p> <http://a/g> .
-<urn:ex:s216> <urn:ex:p> <http://g> .
-<urn:ex:s217> <urn:ex:p> <http://a/bb?y> .
-<urn:ex:s218> <urn:ex:p> <http://a/bb/ccc/g?y> .
-<urn:ex:s219> <urn:ex:p> <http://a/bb#s> .
-<urn:ex:s220> <urn:ex:p> <http://a/bb/ccc/g#s> .
-<urn:ex:s221> <urn:ex:p> <http://a/bb/ccc/g?y#s> .
-<urn:ex:s222> <urn:ex:p> <http://a/bb/ccc/;x> .
-<urn:ex:s223> <urn:ex:p> <http://a/bb/ccc/g;x> .
-<urn:ex:s224> <urn:ex:p> <http://a/bb/ccc/g;x?y#s> .
-<urn:ex:s225> <urn:ex:p> <http://a/bb> .
-<urn:ex:s226> <urn:ex:p> <http://a/bb/ccc> .
-<urn:ex:s227> <urn:ex:p> <http://a/bb/ccc/> .
-<urn:ex:s228> <urn:ex:p> <http://a/bb> .
-<urn:ex:s229> <urn:ex:p> <http://a/bb/> .
-<urn:ex:s230> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s231> <urn:ex:p> <http://a/> .
-<urn:ex:s232> <urn:ex:p> <http://a/> .
-<urn:ex:s233> <urn:ex:p> <http://a/g> .
-<urn:ex:s234> <urn:ex:p> <http://a/g> .
-<urn:ex:s235> <urn:ex:p> <http://a/g> .
-<urn:ex:s236> <urn:ex:p> <http://a/g> .
-<urn:ex:s237> <urn:ex:p> <http://a/g> .
-<urn:ex:s238> <urn:ex:p> <http://a/bb/ccc/g.> .
-<urn:ex:s239> <urn:ex:p> <http://a/bb/ccc/.g> .
-<urn:ex:s240> <urn:ex:p> <http://a/bb/ccc/g..> .
-<urn:ex:s241> <urn:ex:p> <http://a/bb/ccc/..g> .
-<urn:ex:s242> <urn:ex:p> <http://a/bb/g> .
-<urn:ex:s243> <urn:ex:p> <http://a/bb/ccc/g> .
-<urn:ex:s244> <urn:ex:p> <http://a/bb/ccc/g/h> .
-<urn:ex:s245> <urn:ex:p> <http://a/bb/ccc/h> .
-<urn:ex:s246> <urn:ex:p> <http://a/bb/ccc/g;x=1/y> .
-<urn:ex:s247> <urn:ex:p> <http://a/bb/ccc/y> .
-<urn:ex:s248> <urn:ex:p> <http://a/bb/ccc/g?y/./x> .
-<urn:ex:s249> <urn:ex:p> <http://a/bb/ccc/g?y/../x> .
-<urn:ex:s250> <urn:ex:p> <http://a/bb/ccc/g#s/./x> .
-<urn:ex:s251> <urn:ex:p> <http://a/bb/ccc/g#s/../x> .
-<urn:ex:s252> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0126-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s253> <urn:ex:p> <g:h> .
-<urn:ex:s254> <urn:ex:p> <file:///a/bb/ccc/g> .
-<urn:ex:s255> <urn:ex:p> <file:///a/bb/ccc/g> .
-<urn:ex:s256> <urn:ex:p> <file:///a/bb/ccc/g/> .
-<urn:ex:s257> <urn:ex:p> <file:///g> .
-<urn:ex:s258> <urn:ex:p> <file://g> .
-<urn:ex:s259> <urn:ex:p> <file:///a/bb/ccc/d;p?y> .
-<urn:ex:s260> <urn:ex:p> <file:///a/bb/ccc/g?y> .
-<urn:ex:s261> <urn:ex:p> <file:///a/bb/ccc/d;p?q#s> .
-<urn:ex:s262> <urn:ex:p> <file:///a/bb/ccc/g#s> .
-<urn:ex:s263> <urn:ex:p> <file:///a/bb/ccc/g?y#s> .
-<urn:ex:s264> <urn:ex:p> <file:///a/bb/ccc/;x> .
-<urn:ex:s265> <urn:ex:p> <file:///a/bb/ccc/g;x> .
-<urn:ex:s266> <urn:ex:p> <file:///a/bb/ccc/g;x?y#s> .
-<urn:ex:s267> <urn:ex:p> <file:///a/bb/ccc/d;p?q> .
-<urn:ex:s268> <urn:ex:p> <file:///a/bb/ccc/> .
-<urn:ex:s269> <urn:ex:p> <file:///a/bb/ccc/> .
-<urn:ex:s270> <urn:ex:p> <file:///a/bb/> .
-<urn:ex:s271> <urn:ex:p> <file:///a/bb/> .
-<urn:ex:s272> <urn:ex:p> <file:///a/bb/g> .
-<urn:ex:s273> <urn:ex:p> <file:///a/> .
-<urn:ex:s274> <urn:ex:p> <file:///a/> .
-<urn:ex:s275> <urn:ex:p> <file:///a/g> .
-<urn:ex:s276> <urn:ex:p> <file:///g> .
-<urn:ex:s277> <urn:ex:p> <file:///g> .
-<urn:ex:s278> <urn:ex:p> <file:///g> .
-<urn:ex:s279> <urn:ex:p> <file:///g> .
-<urn:ex:s280> <urn:ex:p> <file:///a/bb/ccc/g.> .
-<urn:ex:s281> <urn:ex:p> <file:///a/bb/ccc/.g> .
-<urn:ex:s282> <urn:ex:p> <file:///a/bb/ccc/g..> .
-<urn:ex:s283> <urn:ex:p> <file:///a/bb/ccc/..g> .
-<urn:ex:s284> <urn:ex:p> <file:///a/bb/g> .
-<urn:ex:s285> <urn:ex:p> <file:///a/bb/ccc/g/> .
-<urn:ex:s286> <urn:ex:p> <file:///a/bb/ccc/g/h> .
-<urn:ex:s287> <urn:ex:p> <file:///a/bb/ccc/h> .
-<urn:ex:s288> <urn:ex:p> <file:///a/bb/ccc/g;x=1/y> .
-<urn:ex:s289> <urn:ex:p> <file:///a/bb/ccc/y> .
-<urn:ex:s290> <urn:ex:p> <file:///a/bb/ccc/g?y/./x> .
-<urn:ex:s291> <urn:ex:p> <file:///a/bb/ccc/g?y/../x> .
-<urn:ex:s292> <urn:ex:p> <file:///a/bb/ccc/g#s/./x> .
-<urn:ex:s293> <urn:ex:p> <file:///a/bb/ccc/g#s/../x> .
-<urn:ex:s294> <urn:ex:p> <http:g> .
-```
-
-Found output:
-```json
-<urn:ex:s253> <urn:ex:p> <g:h> .
-<urn:ex:s254> <urn:ex:p> <file:///a/bb/ccc/g> .
-<urn:ex:s255> <urn:ex:p> <file:///a/bb/ccc/g> .
-<urn:ex:s256> <urn:ex:p> <file:///a/bb/ccc/g/> .
-<urn:ex:s257> <urn:ex:p> <file:///g> .
-<urn:ex:s258> <urn:ex:p> <file://g> .
-<urn:ex:s259> <urn:ex:p> <file:///a/bb/ccc/d;p?y> .
-<urn:ex:s260> <urn:ex:p> <file:///a/bb/ccc/g?y> .
-<urn:ex:s261> <urn:ex:p> <file:///a/bb/ccc/d;p?q#s> .
-<urn:ex:s262> <urn:ex:p> <file:///a/bb/ccc/g#s> .
-<urn:ex:s263> <urn:ex:p> <file:///a/bb/ccc/g?y#s> .
-<urn:ex:s264> <urn:ex:p> <file:///a/bb/ccc/;x> .
-<urn:ex:s265> <urn:ex:p> <file:///a/bb/ccc/g;x> .
-<urn:ex:s266> <urn:ex:p> <file:///a/bb/ccc/g;x?y#s> .
-<urn:ex:s267> <urn:ex:p> <file:///a/bb/ccc/d;p?q> .
-<urn:ex:s268> <urn:ex:p> <file:///a/bb/ccc> .
-<urn:ex:s269> <urn:ex:p> <file:///a/bb/ccc/> .
-<urn:ex:s270> <urn:ex:p> <file:///a/bb> .
-<urn:ex:s271> <urn:ex:p> <file:///a/bb/> .
-<urn:ex:s272> <urn:ex:p> <file:///a/bb/g> .
-<urn:ex:s273> <urn:ex:p> <file:///a> .
-<urn:ex:s274> <urn:ex:p> <file:///a/> .
-<urn:ex:s275> <urn:ex:p> <file:///a/g> .
-<urn:ex:s276> <urn:ex:p> <file:///g> .
-<urn:ex:s277> <urn:ex:p> <file:///../g> .
-<urn:ex:s278> <urn:ex:p> <file:///g> .
-<urn:ex:s279> <urn:ex:p> <file:///../g> .
-<urn:ex:s280> <urn:ex:p> <file:///a/bb/ccc/g.> .
-<urn:ex:s281> <urn:ex:p> <file:///a/bb/ccc/.g> .
-<urn:ex:s282> <urn:ex:p> <file:///a/bb/ccc/g..> .
-<urn:ex:s283> <urn:ex:p> <file:///a/bb/ccc/..g> .
-<urn:ex:s284> <urn:ex:p> <file:///a/bb/g> .
-<urn:ex:s285> <urn:ex:p> <file:///a/bb/ccc/g> .
-<urn:ex:s286> <urn:ex:p> <file:///a/bb/ccc/g/h> .
-<urn:ex:s287> <urn:ex:p> <file:///a/bb/ccc/h> .
-<urn:ex:s288> <urn:ex:p> <file:///a/bb/ccc/g;x=1/y> .
-<urn:ex:s289> <urn:ex:p> <file:///a/bb/ccc/y> .
-<urn:ex:s290> <urn:ex:p> <file:///a/bb/ccc/g?y/./x> .
-<urn:ex:s291> <urn:ex:p> <file:///a/bb/ccc/g?y/../x> .
-<urn:ex:s292> <urn:ex:p> <file:///a/bb/ccc/g#s/./x> .
-<urn:ex:s293> <urn:ex:p> <file:///a/bb/ccc/g#s/../x> .
-<urn:ex:s294> <urn:ex:p> <http:g> .
-```
-
-
-
-### Test: `toRdf-0127-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s295> <urn:ex:p> <http://abc/def/> .
-<urn:ex:s296> <urn:ex:p> <http://abc/def/?a=b> .
-<urn:ex:s297> <urn:ex:p> <http://abc/def/#a=b> .
-<urn:ex:s298> <urn:ex:p> <http://abc/> .
-<urn:ex:s299> <urn:ex:p> <http://abc/?a=b> .
-<urn:ex:s300> <urn:ex:p> <http://abc/#a=b> .
-```
-
-Found output:
-```json
-<urn:ex:s295> <urn:ex:p> <http://abc/def> .
-<urn:ex:s296> <urn:ex:p> <http://abc/def?a=b> .
-<urn:ex:s297> <urn:ex:p> <http://abc/def#a=b> .
-<urn:ex:s298> <urn:ex:p> <http://abc/> .
-<urn:ex:s299> <urn:ex:p> <http://abc/?a=b> .
-<urn:ex:s300> <urn:ex:p> <http://abc/#a=b> .
-```
-
-
-
-### Test: `toRdf-0128-in.jsonld`
-
-Expected:
-```json
-<urn:ex:s301> <urn:ex:p> <http://ab//de//xyz> .
-<urn:ex:s302> <urn:ex:p> <http://ab//de//xyz> .
-<urn:ex:s303> <urn:ex:p> <http://ab//de/xyz> .
-```
-
-Found output:
-```json
-<urn:ex:s301> <urn:ex:p> <http://ab/de/xyz> .
-<urn:ex:s302> <urn:ex:p> <http://ab/de/xyz> .
-<urn:ex:s303> <urn:ex:p> <http://ab/xyz> .
-```
-
+**RUNTIME ERROR!!**:  x$success isn't true. 
 
