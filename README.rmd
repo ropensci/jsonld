@@ -2,6 +2,7 @@
 
 > JSON for Linking Data
 
+<!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/jsonld.svg?branch=master)](https://travis-ci.org/ropensci/jsonld)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ropensci/jsonld?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/jsonld)
@@ -9,6 +10,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/jsonld)](https://cran.r-project.org/package=jsonld)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/jsonld)](https://cran.r-project.org/package=jsonld)
 [![Github Stars](https://img.shields.io/github/stars/ropensci/jsonld.svg?style=social&label=Github)](https://github.com/ropensci/jsonld)
+<!-- badges: end -->
 
 
 JSON-LD is a light-weight syntax for expressing linked data. It is primarily
