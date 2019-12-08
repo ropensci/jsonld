@@ -11,7 +11,7 @@ Description: JSON-LD is a light-weight syntax for expressing linked data. It is 
     storing linked data in JSON-based databases. This package provides bindings to the 
     JavaScript library for converting, expanding and compacting JSON-LD documents.
 License: BSD_3_clause + file LICENSE
-URL: https://github.com/ropensci/jsonld#readme (devel)
+URL: https://docs.ropensci.org/jsonld,  https://github.com/ropensci/jsonld#readme (devel)
     https://www.w3.org/TR/json-ld (spec)
 BugReports: https://github.com/ropensci/jsonld/issues
 Imports: V8, jsonlite, curl (>= 2.7)
