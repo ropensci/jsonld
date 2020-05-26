@@ -12,26 +12,34 @@ jsonld.documentLoaders.curl = function(options){
   LINK_HEADER_REL = 'http://www.w3.org/ns/json-ld#context';
   function loader(url, callback){
     var res = console.r.call('jsonld:::download', {url : url});
-    var doc = {contextUrl: null, documentUrl: res.final_url, document: JSON.parse(res.response_text)};
-    var contentType = res.content_type;
     var linkHeader = res.link;
+    var contentType = res.content_type;
+    var target = null;
 
     // copied from 'jsonld.documentLoaders.jquery'
     if(linkHeader && linkHeader.length && contentType !== 'application/ld+json') {
-      // only 1 related link header permitted
-      linkHeader = jsonld.parseLinkHeader(linkHeader)[LINK_HEADER_REL];
-      if(Array.isArray(linkHeader)) {
+      // First check for alternate location: https://www.w3.org/TR/json-ld11/#alternate-document-location
+      var linkdata = jsonld.parseLinkHeader(linkHeader);
+      if(linkdata && linkdata.alternate && linkdata.alternate.target){
+        var newurl = res.final_url + linkdata.alternate.target;
+        return loader(newurl, callback);
+      }
+
+      // Check for jsonld link: https://www.w3.org/TR/json-ld11/#interpreting-json-as-json-ld
+      var link_rel = linkdata[LINK_HEADER_REL];
+      if(Array.isArray(link_rel)) {
         throw new JsonLdError(
           'URL could not be dereferenced, it has more than one ' +
           'associated HTTP Link Header.',
           'jsonld.InvalidUrl',
           {code: 'multiple context link headers', url: url});
       }
-      if(linkHeader) {
-        doc.contextUrl = linkHeader.target;
+      if(link_rel) {
+        target = link_rel.target;
       }
     }
 
+    var doc = {contextUrl: target, documentUrl: res.final_url, document: JSON.parse(res.response_text)};
     callback(null, doc);
   }
   return loader;
