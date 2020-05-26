@@ -1,3 +1,7 @@
+2.2
+  - Update jsonld.js to 1.8.1 (final version to support traditional javascript)
+  - Support "alternate location" links: https://www.w3.org/TR/json-ld11/#alternate-document-location
+
 2.1
   - Refactor async code to work with upcoming version of V8
 
