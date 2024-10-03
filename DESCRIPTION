@@ -4,14 +4,14 @@ Title: JSON for Linking Data
 Version: 2.2.1
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroenooms@gmail.com",
     comment = c(ORCID = "0000-0002-4035-0289"))
-Description: JSON-LD is a light-weight syntax for expressing linked data. It is primarily
-    intended for web-based programming environments, interoperable web services and for 
-    storing linked data in JSON-based databases. This package provides bindings to the 
-    JavaScript library for converting, expanding and compacting JSON-LD documents.
+Description: JSON-LD <https://www.w3.org/TR/json-ld> is a light-weight syntax for 
+    expressing linked data. It is primarily intended for web-based programming
+    environments, interoperable web services and for storing linked data in 
+    JSON-based databases. This package provides bindings to the JavaScript 
+    library for converting, expanding and compacting JSON-LD documents.
 License: BSD_3_clause + file LICENSE
 URL: https://docs.ropensci.org/jsonld,
-    https://github.com/ropensci/jsonld (devel)
-    https://www.w3.org/TR/json-ld (spec)
+    https://ropensci.r-universe.dev/jsonld
 BugReports: https://github.com/ropensci/jsonld/issues
 Imports: V8, jsonlite, curl (>= 2.7)
 RoxygenNote: 5.0.1.9000
